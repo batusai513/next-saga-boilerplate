@@ -1,0 +1,39 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "plugins": [
+    "babel",
+    "import",
+    "react"
+  ],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "settings" : {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.babel.js"
+      }
+    }
+  },
+  "rules": {
+    "no-var": 0,
+    "no-param-reassign": 0,
+    "one-var": [2, { "var": "always" }],
+    "one-var-declaration-per-line": [2, "initializations"],
+    "quotes": ["error", "single"],
+    "react/jsx-filename-extension": 0,
+    "react/forbid-prop-types": 0
+  }
+}
