@@ -5,7 +5,7 @@ const baseURL = '';
 // const withCredentials = true;
 const headers = {
   Accept: 'application/json',
-  credentials: 'same-origin',
+  // credentials: 'same-origin',
 };
 
 function request(method, url, axiosConfig = {}) {

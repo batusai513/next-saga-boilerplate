@@ -1,9 +1,9 @@
 {
-  "name": "create-next-example-app",
+  "name": "next-saga-boilerplate",
   "scripts": {
-    "dev": "next",
+    "dev": "node ./server",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node ./server",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
@@ -13,14 +13,16 @@
     "emotion": "^5.2.0",
     "lodash.merge": "^4.6.0",
     "next": "beta",
-    "next-redux-wrapper": "^1.1.3",
+    "next-redux-wrapper": "^1.2.0",
+    "next-routes": "^1.0.40",
     "normalizr": "^3.2.3",
+    "prop-types": "^15.5.10",
     "ramda": "^0.24.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
-    "recompose": "^0.23.5",
-    "redux": "^3.7.1",
+    "recompose": "^0.24.0",
+    "redux": "^3.7.2",
     "redux-saga": "^0.15.4",
     "reselect": "^3.0.1"
   },
