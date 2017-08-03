@@ -7,8 +7,6 @@ import rootSaga from '../sagas';
 export default function withReduxSaga(InnerComponent, actions) {
   class ReduxContainer extends Component {
     static async getInitialProps({ store, isServer, ...rest }) {
-      console.log('*** in getInitialProps with isServer: ', isServer, ' :: actions: ', actions);
-      if (!isServer) console.log('*** rest: ', rest);
       if (isServer) {
         const action = actions.server || actions;
         const rootTask = runSagas(rootSaga);
