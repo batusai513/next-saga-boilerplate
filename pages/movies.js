@@ -14,4 +14,7 @@ function Movies() {
   );
 }
 
-export default withReduxSaga(Movies, { type: 'GET_MOVIES_SERVER' });
+export default withReduxSaga(Movies, {
+  server: { type: 'GET_MOVIES_SERVER' },
+  client: { type: 'GET_MOVIES' },
+});

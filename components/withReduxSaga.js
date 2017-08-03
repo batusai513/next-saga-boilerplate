@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 import withRedux from 'next-redux-wrapper';
 import { END } from 'redux-saga';
-import configureStore, { sagaMiddleware } from '../store';
+import configureStore, { runSagas } from '../store';
 import rootSaga from '../sagas';
 
-var clientTask = null;
-
-export default function withReduxSaga(InnerComponent, action) {
+export default function withReduxSaga(InnerComponent, actions) {
   class ReduxContainer extends Component {
-    static async getInitialProps(props) {
-      if (props.isServer) {
-        const rootTask = sagaMiddleware.run(rootSaga);
-        props.store.dispatch(Object.assign({}, action, { query: props.query }));
-        props.store.dispatch(END);
+    static async getInitialProps({ store, isServer, ...rest }) {
+      console.log('*** in getInitialProps with isServer: ', isServer, ' :: actions: ', actions);
+      if (!isServer) console.log('*** rest: ', rest);
+      if (isServer) {
+        const action = actions.server || actions;
+        const rootTask = runSagas(rootSaga);
+        store.dispatch(Object.assign({}, action, { isServer }, { ...rest }));
+        store.dispatch(END);
         await rootTask.done.then(() => {});
+      } else {
+        const action = actions.client || actions;
+        store.dispatch(Object.assign({}, action, { isServer }, { ...rest }));
       }
     }
 
     constructor(props) {
       super(props);
-      if (!clientTask) {
-        clientTask = sagaMiddleware.run(rootSaga);
-      }
+      runSagas();
     }
 
     render() {

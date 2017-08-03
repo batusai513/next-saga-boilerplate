@@ -1,10 +1,18 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-// import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
 
 export const sagaMiddleware = createSagaMiddleware();
+
+let sagaTask;
+export function runSagas(sagas) {
+  if (!sagaTask) {
+    const nextSagas = sagas || rootSaga;
+    sagaTask = sagaMiddleware.run(nextSagas);
+  }
+  return sagaTask;
+}
 
 function configureStoreProd(initialState) {
   const middlewares = [sagaMiddleware];
@@ -15,6 +23,7 @@ function configureStoreProd(initialState) {
 }
 
 function configureStoreDev(initialState) {
+  /* eslint-disable global-require */
   const createLogger = require('redux-logger').createLogger;
   const loggerMiddleware = createLogger({
     collapsed: (getState, action) => typeof action === 'function',
@@ -23,16 +32,17 @@ function configureStoreDev(initialState) {
   const middlewares = [
     // Add other middleware on this line...
 
-    // Redux middleware that spits an error on you when you try to mutate your state either inside a dispatch or between dispatches.
     sagaMiddleware,
+    // Redux middleware that spits an error on you when you try to mutate your state
+    // either inside a dispatch or between dispatches.
     require('redux-immutable-state-invariant').default(),
     loggerMiddleware,
-    // thunk middleware can also accept an extra argument to be passed to each thunk action
-    // https://github.com/gaearon/redux-thunk#injecting-a-custom-argument
-    // thunk,
   ];
 
-  const composeEnhancers = /*window !== undefined ? (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose) :*/ compose;
+  /* eslint-disable no-underscore-dangle */
+  const composeEnhancers =
+    (global.window && global.window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+
   const store = createStore(
     rootReducer,
     initialState,
@@ -45,10 +55,18 @@ function configureStoreDev(initialState) {
       const nextReducer = require('../reducers').default; // eslint-disable-line global-require
       store.replaceReducer(nextReducer);
     });
+    module.hot.accept('../sagas', () => {
+      const nextSagas = require('../sagas').default;
+      sagaTask.cancel();
+      sagaTask.done.then(() => {
+        sagaTask = null;
+        sagaTask = runSagas(nextSagas);
+      });
+    });
   }
-  // sagaMiddleware.run(rootSaga);
   return store;
 }
+/* eslint-enable */
 
 const configureStore =
   process.env.NODE_ENV === 'production' ? configureStoreProd : configureStoreDev;

@@ -11,4 +11,7 @@ function Home() {
   );
 }
 
-export default withReduxSaga(Home, { type: 'GET_REPO_SERVER' });
+export default withReduxSaga(Home, {
+  server: { type: 'GET_REPO_SERVER' },
+  client: { type: 'GET_REPO' },
+});
