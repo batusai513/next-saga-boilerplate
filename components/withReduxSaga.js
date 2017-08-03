@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import withRedux from 'next-redux-wrapper';
 import { END } from 'redux-saga';
 import configureStore, { runSagas } from '../store';
-import rootSaga from '../sagas';
 
 export default function withReduxSaga(InnerComponent, actions) {
   class ReduxContainer extends Component {
     static async getInitialProps({ store, isServer, ...rest }) {
       if (isServer) {
         const action = actions.server || actions;
-        const rootTask = runSagas(rootSaga);
+        const rootTask = runSagas();
         store.dispatch(Object.assign({}, action, { isServer }, { ...rest }));
         store.dispatch(END);
         await rootTask.done.then(() => {});
