@@ -1,7 +1,8 @@
 import React from 'react';
-import withReduxSaga from '../components/withReduxSaga';
+import withReduxSaga from '../withReduxSaga';
 import MainLayout from '../components/mainLayout';
 import Repo from '../components/repo';
+import configureStore from '../store';
 
 function Home() {
   return (
@@ -11,7 +12,4 @@ function Home() {
   );
 }
 
-export default withReduxSaga(Home, {
-  server: { type: 'GET_REPO_SERVER' },
-  client: { type: 'GET_REPO' },
-});
+export default withReduxSaga(configureStore, Home, { type: 'GET_REPO' });

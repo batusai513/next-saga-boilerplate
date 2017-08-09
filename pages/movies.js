@@ -1,8 +1,9 @@
 import React from 'react';
-import withReduxSaga from '../components/withReduxSaga';
+import withReduxSaga from '../withReduxSaga';
 import Head from '../components/head';
 import MainLayout from '../components/mainLayout';
 import MovieList from '../components/movieList';
+import configureStore from '../store';
 
 function Movies() {
   return (
@@ -14,7 +15,4 @@ function Movies() {
   );
 }
 
-export default withReduxSaga(Movies, {
-  server: { type: 'GET_MOVIES_SERVER' },
-  client: { type: 'GET_MOVIES' },
-});
+export default withReduxSaga(configureStore, Movies, { type: 'GET_MOVIES' });

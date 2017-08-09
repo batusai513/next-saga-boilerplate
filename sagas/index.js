@@ -1,9 +1,9 @@
 import { all, fork } from 'redux-saga/effects';
-import { fetchRepoServer, watchFetchRepo } from './repoSagas';
-import { watchFetchMovies, watchFetchMovie, fetchMoviesServer, fetchMovieServer } from './movieSagas';
+import watchFetchRepo from './repoSagas';
+import { watchFetchMovies, watchFetchMovie, fetchMovieServer } from './movieSagas';
 
 function* serverSagas() {
-  yield all([fork(fetchRepoServer), fork(fetchMoviesServer), fork(fetchMovieServer)]);
+  yield all([fork(fetchMovieServer)]);
 }
 
 function* clientSagas() {

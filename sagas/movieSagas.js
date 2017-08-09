@@ -23,7 +23,6 @@ function* fetchmovies() {
 }
 
 function* fetchMovie(action) {
-  console.warn(action, '***********----------********')
   const id = action.query.id;
   try {
     yield put({ type: 'GET_MOVIE_PENDING' });
@@ -43,14 +42,6 @@ export function* watchFetchMovie() {
 
 export function* watchFetchMovies() {
   yield takeEvery('GET_MOVIES', fetchmovies);
-}
-
-export function* fetchMoviesServer() {
-  var action = yield take('GET_MOVIES_SERVER');
-  while (action !== END) {
-    yield fork(fetchmovies);
-    action = yield take('GET_MOVIES_SERVER');
-  }
 }
 
 export function* fetchMovieServer() {
