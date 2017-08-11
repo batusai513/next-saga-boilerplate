@@ -20,7 +20,7 @@ Movie.propTypes = {
   url: PropTypes.object.isRequired,
 };
 
-export default withReduxSaga(configureStore, Movie, {
+export default withReduxSaga(configureStore)(Movie, {
   server: { type: 'GET_MOVIE_SERVER' },
   client: { type: 'GET_MOVIE' },
 });

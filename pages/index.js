@@ -12,4 +12,4 @@ function Home() {
   );
 }
 
-export default withReduxSaga(configureStore, Home, { type: 'GET_REPO' });
+export default withReduxSaga(configureStore)(Home, { type: 'GET_REPO' });

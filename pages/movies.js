@@ -15,4 +15,4 @@ function Movies() {
   );
 }
 
-export default withReduxSaga(configureStore, Movies, { type: 'GET_MOVIES' });
+export default withReduxSaga(configureStore)(Movies, { type: 'GET_MOVIES' });
