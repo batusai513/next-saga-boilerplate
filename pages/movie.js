@@ -5,13 +5,13 @@ import withReduxSaga from '../withReduxSaga';
 import MovieDetail from '../components/movieDetail';
 import configureStore from '../store';
 
-function Movie({ url }) {
+function Movie(props) {
   return (
     <MainLayout>
       <h1>
         Movie
       </h1>
-      <MovieDetail id={url.query.id} />
+      <MovieDetail {...props} />
     </MainLayout>
   );
 }
@@ -20,7 +20,17 @@ Movie.propTypes = {
   url: PropTypes.object.isRequired,
 };
 
-export default withReduxSaga(configureStore)(Movie, {
+function mapStateToProps(state, ownProps) {
+  const { url } = ownProps;
+  const id = url.query.id;
+  const movie = state.entities.movies[id] || {};
+  console.warn(movie);
+  return {
+    movie,
+  };
+}
+
+export default withReduxSaga(configureStore, mapStateToProps)(Movie, {
   server: { type: 'GET_MOVIE_SERVER' },
   client: { type: 'GET_MOVIE' },
 });

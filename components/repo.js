@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import P from 'prop-types';
 import Head from '../components/head';
 
@@ -83,20 +82,4 @@ Repo.propTypes = {
   getRepo: P.func.isRequired,
 };
 
-function mapStateToProps(state) {
-  var repoId = state.repo.id,
-    repo = state.entities.repos[repoId] || {};
-  return {
-    repo,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getRepo() {
-      return dispatch({ type: 'GET_REPO' });
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Repo);
+export default Repo;

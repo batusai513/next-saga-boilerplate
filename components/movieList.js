@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from '../server/routes';
 
 function MovieList({ movies }) {
@@ -23,11 +22,4 @@ MovieList.propTypes = {
   movies: PropTypes.array.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    movies: state.movies.list.map(id => state.entities.movies[id]) || [],
-    isFetching: state.movies.isFetching,
-  };
-}
-
-export default connect(mapStateToProps)(MovieList);
+export default MovieList;
