@@ -1,14 +1,31 @@
 import React from 'react';
-import withReduxSaga from '../components/withReduxSaga';
+import withReduxSaga from '../withReduxSaga';
 import MainLayout from '../components/mainLayout';
 import Repo from '../components/repo';
+import configureStore from '../store';
 
-function Home() {
+function Home(props) {
   return (
     <MainLayout>
-      <Repo />
+      <Repo {...props} />
     </MainLayout>
   );
 }
 
-export default withReduxSaga(Home, { type: 'GET_REPO_SERVER' });
+function mapStateToProps(state) {
+  var repoId = state.repo.id,
+    repo = state.entities.repos[repoId] || {};
+  return {
+    repo,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getRepo() {
+      return dispatch({ type: 'GET_REPO' });
+    },
+  };
+}
+
+export default withReduxSaga(configureStore, mapStateToProps, mapDispatchToProps)(Home, { type: 'GET_REPO' });

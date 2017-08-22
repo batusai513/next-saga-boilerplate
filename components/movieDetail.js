@@ -1,21 +1,30 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 function MovieDetail({ movie }) {
+  const imdb = `http://www.imdb.com/title/${movie.imdb_id}/`;
   return (
-    <h2>
-      {movie.title}
-    </h2>
+    <div>
+      <h2>
+        <a href={movie.homepage}>{movie.title}</a>
+      </h2>
+      <p>{movie.overview}</p>
+      <p>imdb: <a href={imdb}>{imdb}</a></p>
+    </div>
   );
 }
 
-function mapStateToProps(state, ownProps) {
-  const { id } = ownProps;
-  const movie = state.entities.movies[id] || {};
-  console.warn(movie);
-  return {
-    movie,
-  };
-}
+MovieDetail.propTypes = {
+  movie: PropTypes.shape({
+    title: PropTypes.string,
+    imdb_id: PropTypes.string,
+    homepage: PropTypes.string,
+    overview: PropTypes.string,
+  }),
+};
 
-export default connect(mapStateToProps)(MovieDetail);
+MovieDetail.defaultProps = {
+  movie: {},
+};
+
+export default MovieDetail;
