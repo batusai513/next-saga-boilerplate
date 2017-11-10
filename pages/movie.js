@@ -24,7 +24,6 @@ function mapStateToProps(state, ownProps) {
   const { url } = ownProps;
   const id = url.query.id;
   const movie = state.entities.movies[id] || {};
-  console.warn(movie);
   return {
     movie,
   };
